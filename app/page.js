@@ -400,8 +400,10 @@ export default function Home() {
         <div className="robot-stage">
           <img
             className="reception-photo"
-            src="/photo1.png"
-            alt="Aanya, Smile Care's receptionist, ready to help"
+            src={isConnected ? "/photo2.png" : "/photo1.png"}
+            alt={isConnected
+              ? "Aanya, Smile Care's receptionist, answering a call"
+              : "Aanya, Smile Care's receptionist, ready to help"}
           />
           <div className="robot-caption">
             <span className="caption-status-dot" />
