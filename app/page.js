@@ -104,18 +104,6 @@ export default function Home() {
       const audioContext = new AudioContext();
       audioContextRef.current = audioContext;
       nextPlaybackTimeRef.current = audioContext.currentTime;
-
-      const outputCompressor = audioContext.createDynamicsCompressor();
-      outputCompressor.threshold.value = -24;
-      outputCompressor.knee.value = 24;
-      outputCompressor.ratio.value = 4;
-      outputCompressor.attack.value = 0.003;
-      outputCompressor.release.value = 0.25;
-
-      const outputGain = audioContext.createGain();
-      outputGain.gain.value = 1.2;
-      outputCompressor.connect(outputGain);
-      outputGain.connect(audioContext.destination);
       await audioContext.resume();
 
       const socket = new WebSocket(
@@ -291,7 +279,7 @@ export default function Home() {
 
             const playback = audioContext.createBufferSource();
             playback.buffer = audioBuffer;
-            playback.connect(outputCompressor);
+            playback.connect(audioContext.destination);
             playback.onended = () => playbackSourcesRef.current.delete(playback);
 
             const startAt = Math.max(audioContext.currentTime, nextPlaybackTimeRef.current);
